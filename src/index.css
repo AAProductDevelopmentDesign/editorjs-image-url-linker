@@ -1,7 +1,7 @@
 .cdx-simple-image {}
 
 .cdx-simple-image .cdx-loader {
-  min-height: 200px;
+  min-height: 80px;
 }
 
 .cdx-simple-image .cdx-input {
@@ -11,6 +11,8 @@
 .cdx-simple-image img {
   max-width: 100%;
   vertical-align: bottom;
+  display: block;
+  margin: auto;
 }
 
 .cdx-simple-image__caption[contentEditable=true][data-placeholder]:empty::before {
@@ -19,7 +21,7 @@
   color: #707684;
   font-weight: normal;
   opacity: 0;
- }
+}
 
 .cdx-simple-image__caption[contentEditable=true][data-placeholder]:empty::before {
   opacity: 1;
@@ -27,6 +29,13 @@
 
 .cdx-simple-image__caption[contentEditable=true][data-placeholder]:empty:focus::before {
   opacity: 0;
+}
+
+.cdx-simple-image__url {
+  color: #707684;
+  font-weight: normal;
+  font-size: 8pt;
+  text-align: center;
 }
 
 

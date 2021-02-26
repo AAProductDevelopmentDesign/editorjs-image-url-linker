@@ -1,5 +1,5 @@
 {
-  "name": "@editorjs/simple-image",
+  "name": "editorjs-inline-image",
   "version": "1.4.0",
   "keywords": [
     "codex editor",
@@ -9,7 +9,7 @@
     "editor.js",
     "editorjs"
   ],
-  "description": "SimpleImage Tool for Editor.js",
+  "description": "URL Image Tool for Editor.js",
   "license": "MIT",
   "repository": "https://github.com/editor-js/simple-image",
   "main": "./dist/bundle.js",

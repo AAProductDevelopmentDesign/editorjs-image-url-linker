@@ -58,6 +58,7 @@ class SimpleImage {
       wrapper: 'cdx-simple-image',
       imageHolder: 'cdx-simple-image__picture',
       caption: 'cdx-simple-image__caption',
+      displayUrl: 'cdx-simple-image__url',
     };
 
     /**
@@ -110,13 +111,14 @@ class SimpleImage {
    */
   render() {
     const wrapper = this._make('div', [this.CSS.baseClass, this.CSS.wrapper]),
-        loader = this._make('div', this.CSS.loading),
-        imageHolder = this._make('div', this.CSS.imageHolder),
-        image = this._make('img'),
-        caption = this._make('div', [this.CSS.input, this.CSS.caption], {
-          contentEditable: !this.readOnly,
-          innerHTML: this.data.caption || '',
-        });
+      loader = this._make('div', this.CSS.loading),
+      imageHolder = this._make('div', this.CSS.imageHolder),
+      image = this._make('img'),
+      caption = this._make('div', [this.CSS.input, this.CSS.caption], {
+        contentEditable: !this.readOnly,
+        innerHTML: this.data.caption || '',
+      }),
+      displayUrl = this._make('p', this.CSS.displayUrl);
 
     caption.dataset.placeholder = 'Enter a caption';
 
@@ -124,12 +126,32 @@ class SimpleImage {
 
     if (this.data.url) {
       image.src = this.data.url;
+      displayUrl.innerHTML = this.data.url;
+      wrapper.appendChild(displayUrl);
     }
+
+    // If image takes longer than 5 seconds to load
+    setTimeout
+      (
+        function () {
+          if (!image.complete || !image.naturalWidth) {
+            const eqUrls = ['dev.aviationaustralia.aero', 'preprod.aviationaustralia.aero', 'prod.aviationaustralia.aero']
+            image.src = "../assets/image-placeholder.jpg";
+            if (this.data.url.toString().includes(eqUrls[0]) || this.data.url.toString().includes(eqUrls[1]) || this.data.url.toString().includes(eqUrls[2])) {
+              image.src = "../assets/equella-placeholder.jpg";
+            }
+          }
+        },
+        5000
+      );
 
     image.onload = () => {
       wrapper.classList.remove(this.CSS.loading);
+      displayUrl.remove()
       imageHolder.appendChild(image);
       wrapper.appendChild(imageHolder);
+      displayUrl.innerHTML = this.data.url;
+      wrapper.appendChild(displayUrl);
       wrapper.appendChild(caption);
       loader.remove();
       this._acceptTuneView();
@@ -155,7 +177,7 @@ class SimpleImage {
    */
   save(blockContent) {
     const image = blockContent.querySelector('img'),
-        caption = blockContent.querySelector('.' + this.CSS.input);
+      caption = blockContent.querySelector('.' + this.CSS.input);
 
     if (!image) {
       return this.data;
@@ -288,9 +310,9 @@ class SimpleImage {
       patterns: {
         image: /https?:\/\/\S+\.(gif|jpe?g|tiff|png)$/i,
       },
-      tags: [ 'img' ],
+      tags: ['img'],
       files: {
-        mimeTypes: [ 'image/*' ],
+        mimeTypes: ['image/*'],
       },
     };
   }

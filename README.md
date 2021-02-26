@@ -1,5 +1,8 @@
 ![](https://badgen.net/badge/Editor.js/v2.0/blue)
 
+# Inline Image Tool
+
+This is a fork of the Simple Image tool with a change to assume that all Urls will resolve to an image even if they can't be retrieved. 
 # Simple Image Tool
 
 Provides Image Blocks for the [Editor.js](https://editorjs.io).
