@@ -308,7 +308,7 @@ class SimpleImage {
   static get pasteConfig() {
     return {
       patterns: {
-        image: /https?:\/\/\S+\.(gif|jpe?g|tiff|png)$/i,
+        image: /https?:\/\/\S+\.(gif|jpe?g|tiff|png|svg)$/i,
       },
       tags: ['img'],
       files: {
