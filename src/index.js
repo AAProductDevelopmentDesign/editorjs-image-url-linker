@@ -152,14 +152,15 @@ class SimpleImage {
       (
         function () {
           if (!image.complete || !image.naturalWidth) {
-            const eqUrls = ['dev.aviationaustralia.aero', 'preprod.aviationaustralia.aero', 'prod.aviationaustralia.aero']
-            image.src = "../assets/image-placeholder.jpg";
-            if (this.data.url.toString().includes(eqUrls[0]) || this.data.url.toString().includes(eqUrls[1]) || this.data.url.toString().includes(eqUrls[2])) {
-              image.src = "../assets/equella-placeholder.jpg";
-            }
+            // const eqUrls = ['dev.aviationaustralia.aero', 'preprod.aviationaustralia.aero', 'prod.aviationaustralia.aero']
+            // image.src = "../assets/image-placeholder.jpg";
+            // if (this.data.url.toString().includes(eqUrls[0]) || this.data.url.toString().includes(eqUrls[1]) || this.data.url.toString().includes(eqUrls[2])) {
+            //   image.src = "../assets/equella-placeholder.jpg";
+            // }
+            console.log('Image took too long to load')
           }
         },
-        5000
+        8000
       );
 
     image.onload = () => {
