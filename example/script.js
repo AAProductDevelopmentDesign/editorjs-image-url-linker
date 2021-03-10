@@ -6,6 +6,7 @@ const editor = new EditorJS({
             inlineToolbar: true,
         }
     },
+    onChange: async (e) => { await e.saver.save()},
     data: {
         "time": 1602919875295,
         "blocks": [

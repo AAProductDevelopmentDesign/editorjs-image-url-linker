@@ -58,6 +58,7 @@ class SimpleImage {
       wrapper: 'cdx-simple-image',
       imageHolder: 'cdx-simple-image__picture',
       caption: 'cdx-simple-image__caption',
+      style: 'cdx-simple-image__style',
       displayUrl: 'cdx-simple-image__url',
     };
 
@@ -69,6 +70,7 @@ class SimpleImage {
       imageHolder: null,
       image: null,
       caption: null,
+      style: null
     };
 
     /**
@@ -77,6 +79,7 @@ class SimpleImage {
     this.data = {
       url: data.url || '',
       caption: data.caption || '',
+      style: data.style || '',
       withBorder: data.withBorder !== undefined ? data.withBorder : false,
       withBackground: data.withBackground !== undefined ? data.withBackground : false,
       stretched: data.stretched !== undefined ? data.stretched : false,
@@ -114,13 +117,27 @@ class SimpleImage {
       loader = this._make('div', this.CSS.loading),
       imageHolder = this._make('div', this.CSS.imageHolder),
       image = this._make('img'),
+      grid = this._make('div', 'grid-container'),
+      left = this._make('div', 'left'),
+      right = this._make('div', 'right'),
       caption = this._make('div', [this.CSS.input, this.CSS.caption], {
         contentEditable: !this.readOnly,
         innerHTML: this.data.caption || '',
       }),
+      style = this._make('div', [this.CSS.input, this.CSS.caption], {
+        contentEditable: !this.readOnly,
+        innerHTML: this.data.style || '',
+      }),
       displayUrl = this._make('p', this.CSS.displayUrl);
 
+    // Set id
+    style.id = 'style-element';
+
+    // Set placeholders
     caption.dataset.placeholder = 'Enter a caption';
+    caption.style.maxWidth = '484px';
+    style.dataset.placeholder = 'Max height (px)';
+    style.style.maxWidth = '160px';
 
     wrapper.appendChild(loader);
 
@@ -152,7 +169,11 @@ class SimpleImage {
       wrapper.appendChild(imageHolder);
       displayUrl.innerHTML = this.data.url;
       wrapper.appendChild(displayUrl);
-      wrapper.appendChild(caption);
+      wrapper.appendChild(grid)
+      grid.appendChild(left)
+      grid.appendChild(right)
+      left.appendChild(caption);
+      right.appendChild(style);
       loader.remove();
       this._acceptTuneView();
     };
@@ -166,6 +187,7 @@ class SimpleImage {
     this.nodes.wrapper = wrapper;
     this.nodes.image = image;
     this.nodes.caption = caption;
+    this.nodes.style = style;
 
     return wrapper;
   }
@@ -177,15 +199,34 @@ class SimpleImage {
    */
   save(blockContent) {
     const image = blockContent.querySelector('img'),
-      caption = blockContent.querySelector('.' + this.CSS.input);
+      caption = blockContent.querySelector('.' + this.CSS.input),
+      style = blockContent.querySelector('#style-element');
 
     if (!image) {
       return this.data;
     }
 
+    if (this.data.style && !Number.isNaN(parseInt(this.data.style))) {
+      	const styleValue = parseInt(this.data.style)
+        console.log('value', styleValue)
+        if (styleValue > 300) {
+          image.style.maxHeight = `${this.data.style}px`;
+          style.style.color = '#0cad5d'
+        } else { style.style.color = '#b81f14' }
+    } else { 
+      if (this.data.style) style.style.color = '#b81f14' 
+    }
+
+    console.log({
+      url: image.src,
+      caption: caption.innerHTML,
+      style: style.innerHTML
+    })
+
     return Object.assign(this.data, {
       url: image.src,
       caption: caption.innerHTML,
+      style: style.innerHTML
     });
   }
 
@@ -296,6 +337,10 @@ class SimpleImage {
 
     if (this.nodes.caption) {
       this.nodes.caption.innerHTML = this.data.caption;
+    }
+
+    if (this.nodes.style) {
+      this.nodes.caption.innerHTML = this.data.style;
     }
   }
 
