@@ -208,7 +208,6 @@ class SimpleImage {
 
     if (this.data.style && !Number.isNaN(parseInt(this.data.style))) {
       	const styleValue = parseInt(this.data.style)
-        console.log('value', styleValue)
         if (styleValue > 300) {
           image.style.maxHeight = `${this.data.style}px`;
           style.style.color = '#0cad5d'
@@ -216,12 +215,6 @@ class SimpleImage {
     } else { 
       if (this.data.style) style.style.color = '#b81f14' 
     }
-
-    console.log({
-      url: image.src,
-      caption: caption.innerHTML,
-      style: style.innerHTML
-    })
 
     return Object.assign(this.data, {
       url: image.src,
