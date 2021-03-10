@@ -3,6 +3,29 @@
  */
 require('./index.css').toString();
 
+// If you stumbled across this code - it is specific for this use.
+// You can delete and remove the reference from the render function below
+function fixImageUrlToLatestApiVersion(url) {
+  if (url.includes('aviationaustralia.aero')) {
+    if (url.includes('file') && url.split("/").length === 7) {
+        const urlArr = url.split("/")
+        const newArr = `${urlArr[0]}//${urlArr[2]}/items/${urlArr[4]}/0/${urlArr[6]}`
+        return newArr
+    } else if (url.includes('items')) {
+        if (url.includes('/0/')) {
+            return url
+        } else {
+            const regex = /\/([0-9]+)\//g
+            const found = url.match(regex)[0]
+            const urlArr = url.split(found)
+            const newArr = `${urlArr[0]}/0/${urlArr[1]}`
+            return newArr
+        }
+    }
+  }
+  return url
+}
+
 /**
  * SimpleImage Tool for the Editor.js
  * Works only with pasted image URLs and requires no server-side uploader.
@@ -142,8 +165,8 @@ class SimpleImage {
     wrapper.appendChild(loader);
 
     if (this.data.url) {
-      image.src = this.data.url;
-      displayUrl.innerHTML = this.data.url;
+      image.src = fixImageUrlToLatestApiVersion(this.data.url);
+      displayUrl.innerHTML = fixImageUrlToLatestApiVersion(this.data.url);
       wrapper.appendChild(displayUrl);
     }
 
